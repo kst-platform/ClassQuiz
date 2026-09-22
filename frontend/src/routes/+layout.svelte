@@ -32,14 +32,13 @@ SPDX-License-Identifier: MPL-2.0
 			document.documentElement.classList.remove('dark');
 		}
 	}
-	let start_language = 'ru';
-	const rtl_languages = ['he', 'prs', 'ps'];
+	// Язык платформы всегда русский, без переключателя и без определения
+	// по браузеру (по прямому указанию пользователя).
 	if (browser) {
-		start_language = localStorage.getItem('language') ?? 'ru';
-		document.documentElement.lang = start_language;
-		document.documentElement.dir = rtl_languages.includes(start_language) ? 'rtl' : 'ltr';
+		document.documentElement.lang = 'ru';
+		document.documentElement.dir = 'ltr';
 	}
-	initLocalizationContext(start_language);
+	initLocalizationContext('ru');
 </script>
 
 <svelte:head>
