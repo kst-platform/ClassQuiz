@@ -34,6 +34,7 @@ from classquiz.routers import (
     quiztivity,
     pixabay,
     moderation,
+    groups,
 )
 from classquiz.socket_server import sio
 from classquiz.helpers import meilisearch_init
@@ -131,4 +132,5 @@ app.include_router(
 )
 app.include_router(avatar.router, tags=["avatar"], prefix="/api/v1/avatar", include_in_schema=True)
 app.include_router(admin.router, tags=["admin"], prefix="/api/v1/admin", include_in_schema=True)
+app.include_router(groups.router, tags=["groups"], prefix="/api/v1/groups", include_in_schema=True)
 app.mount("/", ASGIApp(sio))

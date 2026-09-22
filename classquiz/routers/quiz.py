@@ -19,7 +19,7 @@ from pydantic import ValidationError, BaseModel
 
 from classquiz.auth import get_current_user
 from classquiz.config import redis, settings, storage, meilisearch
-from classquiz.db.models import Quiz, User, PlayGame, GameInLobby, QuizQuestion, QuizQuestionType
+from classquiz.db.models import Quiz, User, PlayGame, GameInLobby, QuizQuestion, QuizQuestionType, Group, GroupMember
 from classquiz.helpers.box_controller import generate_code
 from classquiz.kahoot_importer.import_quiz import import_quiz
 import urllib.parse
@@ -82,6 +82,7 @@ async def start_quiz(
     custom_field: str | None = None,
     cqcs_enabled: bool = False,
     randomize_answers: bool = False,
+    group_id: uuid.UUID | None = None,
     user: User = Depends(get_current_user),
 ):
     try:
@@ -93,6 +94,16 @@ async def start_quiz(
         quiz = await Quiz.objects.get_or_none(id=quiz_id, public=True)
         if quiz is None:
             return JSONResponse(status_code=404, content={"detail": "quiz not found"})
+    roster: list[str] | None = None
+    if group_id is not None:
+        # Своя группа — чужую привязать к игре нельзя, даже зная её id.
+        group = await Group.objects.get_or_none(id=group_id, teacher=user)
+        if group is None:
+            raise HTTPException(status_code=404, detail="Группа не найдена")
+        members = await GroupMember.objects.filter(group=group).all()
+        roster = [m.full_name for m in members]
+        if len(roster) == 0:
+            raise HTTPException(status_code=400, detail="В группе нет ни одного студента")
     quiz.plays += 1
     await quiz.update()
     game_pin = randint(100000, 999999)
@@ -125,6 +136,8 @@ async def start_quiz(
         background_color=quiz.background_color,
         custom_field=custom_field,
         background_image=quiz.background_image,
+        group_id=group_id,
+        roster=roster,
     )
     code = None
     if cqcs_enabled:
@@ -145,6 +158,7 @@ class CheckIfCaptchaEnabledResponse(BaseModel):
     enabled: bool
     game_mode: str | None = None
     custom_field: str | None = None
+    roster: list[str] | None = None
 
 
 @router.get("/play/check_captcha/{game_pin}", response_model=CheckIfCaptchaEnabledResponse)
@@ -153,10 +167,12 @@ async def check_if_captcha_enabled(game_pin: str):
     if game is None:
         return JSONResponse(status_code=404, content={"detail": "game not found"})
     game = PlayGame.model_validate_json(game)
-    if game.captcha_enabled:
-        return CheckIfCaptchaEnabledResponse(enabled=True, game_mode=game.game_mode, custom_field=game.custom_field)
-    else:
-        return CheckIfCaptchaEnabledResponse(enabled=False, game_mode=game.game_mode, custom_field=game.custom_field)
+    return CheckIfCaptchaEnabledResponse(
+        enabled=game.captcha_enabled,
+        game_mode=game.game_mode,
+        custom_field=game.custom_field,
+        roster=game.roster,
+    )
 
 
 @router.get("/join/{game_pin}", deprecated=True)

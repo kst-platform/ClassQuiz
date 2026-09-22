@@ -57,6 +57,7 @@ SPDX-License-Identifier: MPL-2.0
 			<a class="btn-nav" href="/search">{$t('words.search')}</a>
 			{#if $signedIn}
 				<a class="btn-nav" href="/dashboard">{$t('words.dashboard')}</a>
+				<a class="btn-nav" href="/dashboard/groups">Группы</a>
 			{:else}
 				<a class="btn-nav" href="/docs">{$t('words.docs')}</a>
 			{/if}
@@ -255,6 +256,7 @@ SPDX-License-Identifier: MPL-2.0
 				<a class="btn-nav" href="/search">{$t('words.search')}</a>
 				{#if $signedIn}
 					<a class="btn-nav" href="/dashboard">{$t('words.dashboard')}</a>
+					<a class="btn-nav" href="/dashboard/groups">Группы</a>
 				{:else}
 					<a class="btn-nav" href="/docs">{$t('words.docs')}</a>
 				{/if}

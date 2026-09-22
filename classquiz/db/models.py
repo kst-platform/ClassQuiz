@@ -257,6 +257,13 @@ class PlayGame(BaseModel):
     background_image: str | None = None
     custom_field: str | None = None
     question_show: bool = False
+    # Если сессия привязана к группе (classquiz/routers/groups.py), roster —
+    # список ФИО студентов на момент старта игры, скопированный из
+    # GroupMember в Redis один раз при /quiz/start, чтобы join_game не ходил
+    # в Postgres на каждое подключение. Если roster не None, join_game
+    # (classquiz/socket_server/__init__.py) принимает только эти имена.
+    group_id: uuid.UUID | None = None
+    roster: list[str] | None = None
 
     @classmethod
     async def get_from_redis(self, game_pin: str) -> Self:
@@ -569,6 +576,39 @@ class Rating(ormar.Model):
 
     ormar_config = ormar.OrmarConfig(
         tablename="rating",
+        metadata=metadata,
+        database=database,
+    )
+
+
+class Group(ormar.Model):
+    """Учебная группа студентов, которой владеет один преподаватель.
+
+    У студентов нет своих учёток — только список ФИО (GroupMember).
+    Группа используется, чтобы на входе в игру студент выбирал своё имя из
+    заранее заданного списка, а не вводил произвольный ник (см.
+    classquiz/routers/groups.py и join_game в classquiz/socket_server).
+    """
+
+    id: uuid.UUID = ormar.UUID(primary_key=True, default=uuid.uuid4)
+    name: str = ormar.String(max_length=100)
+    teacher: Optional[User] = ormar.ForeignKey(User, ondelete=ReferentialAction.CASCADE)
+    created_at: datetime = ormar.DateTime(default=datetime.now())
+
+    ormar_config = ormar.OrmarConfig(
+        tablename="groups",
+        metadata=metadata,
+        database=database,
+    )
+
+
+class GroupMember(ormar.Model):
+    id: uuid.UUID = ormar.UUID(primary_key=True, default=uuid.uuid4)
+    group: Optional[Group] = ormar.ForeignKey(Group, ondelete=ReferentialAction.CASCADE)
+    full_name: str = ormar.String(max_length=150)
+
+    ormar_config = ormar.OrmarConfig(
+        tablename="group_members",
         metadata=metadata,
         database=database,
     )

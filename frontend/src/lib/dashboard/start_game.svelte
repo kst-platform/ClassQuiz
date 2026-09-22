@@ -22,6 +22,13 @@ SPDX-License-Identifier: MPL-2.0
 	let custom_field = $state('');
 	let cqcs_enabled = $state(false);
 	let randomized_answers = $state(false);
+	interface GroupOption {
+		id: string;
+		name: string;
+		member_count: number;
+	}
+	let groups: GroupOption[] = $state([]);
+	let selected_group_id = $state('');
 
 	const tippy = createTippy({
 		arrow: true,
@@ -33,6 +40,10 @@ SPDX-License-Identifier: MPL-2.0
 	onMount(() => {
 		const ls_data = localStorage.getItem('custom_field');
 		custom_field = ls_data ? ls_data : '';
+		fetch('/api/v1/groups')
+			.then((r) => (r.ok ? r.json() : []))
+			.then((data) => (groups = data))
+			.catch(() => (groups = []));
 	});
 
 	const start_game = async (id: string) => {
@@ -41,16 +52,17 @@ SPDX-License-Identifier: MPL-2.0
 		localStorage.setItem('custom_field', custom_field);
 		const cqcs_enabled_parsed = cqcs_enabled ? 'True' : 'False';
 		const randomized_answers_parsed = randomized_answers ? 'True' : 'False';
+		const group_param = selected_group_id ? `&group_id=${selected_group_id}` : '';
 		if (captcha_enabled && captcha_selected) {
 			res = await fetch(
-				`/api/v1/quiz/start/${id}?captcha_enabled=True&game_mode=${selected_game_mode}&custom_field=${custom_field}&cqcs_enabled=${cqcs_enabled_parsed}`,
+				`/api/v1/quiz/start/${id}?captcha_enabled=True&game_mode=${selected_game_mode}&custom_field=${custom_field}&cqcs_enabled=${cqcs_enabled_parsed}${group_param}`,
 				{
 					method: 'POST'
 				}
 			);
 		} else {
 			res = await fetch(
-				`/api/v1/quiz/start/${id}?captcha_enabled=False&game_mode=${selected_game_mode}&custom_field=${custom_field}&cqcs_enabled=${cqcs_enabled_parsed}&randomize_answers=${randomized_answers_parsed}`,
+				`/api/v1/quiz/start/${id}?captcha_enabled=False&game_mode=${selected_game_mode}&custom_field=${custom_field}&cqcs_enabled=${cqcs_enabled_parsed}&randomize_answers=${randomized_answers_parsed}${group_param}`,
 				{
 					method: 'POST'
 				}
@@ -177,6 +189,17 @@ SPDX-License-Identifier: MPL-2.0
 				placeholder="Phone Number or Email"
 			/>
 		</div>
+		{#if groups.length > 0}
+			<div class="flex justify-center items-center my-auto">
+				<label class="mr-4" for="group-select">Группа</label>
+				<select id="group-select" bind:value={selected_group_id} class="rounded-lg p-2">
+					<option value="">Без группы (свободный вход)</option>
+					{#each groups as g (g.id)}
+						<option value={g.id}>{g.name} ({g.member_count})</option>
+					{/each}
+				</select>
+			</div>
+		{/if}
 		<div class="flex justify-center w-full my-auto">
 			<label for="cqc-toggle" class="inline-flex relative items-center cursor-pointer">
 				<input

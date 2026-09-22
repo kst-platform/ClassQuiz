@@ -30,6 +30,11 @@ SPDX-License-Identifier: MPL-2.0
 	let custom_field = $state();
 	let custom_field_value = $state();
 	let captcha_enabled = $state();
+	// Если игра привязана к группе (classquiz/routers/groups.py), сервер
+	// присылает список ФИО — вместо свободного ника показываем выбор
+	// из него, сервер всё равно проверит на своей стороне (join_game).
+	let roster: string[] | undefined = $state();
+	let roster_error = $state('');
 
 	let hcaptchaSitekey = hcaptcha_site_key;
 
@@ -89,6 +94,10 @@ SPDX-License-Identifier: MPL-2.0
 		if (res.status === 200) {
 			captcha_enabled = json.enabled;
 			custom_field = json.custom_field;
+			roster = json.roster ?? undefined;
+			if (roster && roster.length > 0) {
+				username = roster[0];
+			}
 		}
 		if (res.status === 404) {
 			/*			alertModal.set({
@@ -184,6 +193,12 @@ SPDX-License-Identifier: MPL-2.0
 			alert('Game not found');
 		}
 	});
+	socket.on('username_not_in_roster', () => {
+		roster_error = 'Это имя уже занято или его нет в списке группы. Выберите своё имя из списка.';
+	});
+	socket.on('username_already_exists', () => {
+		roster_error = roster ? 'Кто-то уже вошёл под этим именем.' : '';
+	});
 	$effect(() => {
 		const cleaned = game_pin.replace(/\D/g, '');
 		if (game_pin.replace(/\D/g, '') === game_pin) {
@@ -224,11 +239,25 @@ SPDX-License-Identifier: MPL-2.0
 	<div class="flex flex-col justify-center align-center w-screen h-screen">
 		<form onsubmit={setUsername} class="flex-col flex justify-center align-center mx-auto">
 			<h1 class="text-lg text-center">{$t('words.username')}</h1>
-			<input
-				class="border border-gray-400 self-center text-center text-black ring-0 outline-hidden p-2 rounded-lg focus:shadow-2xl transition-all"
-				bind:value={username}
-				maxlength="17"
-			/>
+			{#if roster && roster.length > 0}
+				<select
+					class="border border-gray-400 self-center text-center text-black ring-0 outline-hidden p-2 rounded-lg focus:shadow-2xl transition-all"
+					bind:value={username}
+				>
+					{#each roster as name (name)}
+						<option value={name}>{name}</option>
+					{/each}
+				</select>
+			{:else}
+				<input
+					class="border border-gray-400 self-center text-center text-black ring-0 outline-hidden p-2 rounded-lg focus:shadow-2xl transition-all"
+					bind:value={username}
+					maxlength="17"
+				/>
+			{/if}
+			{#if roster_error}
+				<p class="text-red-600 text-sm text-center mt-1">{roster_error}</p>
+			{/if}
 			{#if custom_field}
 				<h1 class="text-lg text-center">{custom_field}</h1>
 				<input

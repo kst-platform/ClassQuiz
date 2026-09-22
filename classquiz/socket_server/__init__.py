@@ -145,6 +145,11 @@ async def join_game(sid: str, data: dict):
     if game_data.started:
         await sio.emit("game_already_started", room=sid)
         return
+    if game_data.roster is not None and data.username not in game_data.roster:
+        # Игра привязана к группе — принимаем только имена из ростера,
+        # а не любой введённый текст (classquiz/routers/groups.py).
+        await sio.emit("username_not_in_roster", room=sid)
+        return
     # +++ START checking captcha +++
     if game_data.captcha_enabled:
         captcha_res = check_captcha(data.captcha)
