@@ -1,0 +1,3 @@
+# SPDX-FileCopyrightText: 2026 ГБПОУ КСТ
+#
+# SPDX-License-Identifier: MPL-2.0

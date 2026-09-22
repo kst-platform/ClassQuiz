@@ -12,11 +12,13 @@ from typing import Any
 import ormar.exceptions
 import xlsxwriter
 from aiohttp import ClientSession
-from fastapi import APIRouter, Depends, File, UploadFile, HTTPException
+from fastapi import APIRouter, Depends, File, Form, UploadFile, HTTPException
 from fastapi.responses import StreamingResponse
+from pydantic import BaseModel
 from classquiz.auth import get_current_user
 from classquiz.config import storage, settings, arq
 from classquiz.db.models import Quiz, User, StorageItem, QuizQuestionType, QuizQuestion
+from classquiz.gift_importer.parse import parse_gift
 import gzip
 import urllib.parse
 import magic
@@ -79,6 +81,62 @@ async def export_quiz(quiz_id: uuid.UUID, _: User = Depends(get_current_user)):
             "Content-Disposition": f"attachment;filename={urllib.parse.quote(quiz.title)}.cqa"
             # noqa: E501
         },
+    )
+
+
+class GiftImportSkipped(BaseModel):
+    name: str
+    reason: str
+
+
+class GiftImportResponse(BaseModel):
+    quiz: Quiz
+    imported_count: int
+    skipped: list[GiftImportSkipped]
+    problems: list[str]
+
+
+@router.post("/gift", response_model=GiftImportResponse)
+async def import_gift(
+    file: UploadFile = File(),
+    title: str = Form("Импорт из GIFT"),
+    user: User = Depends(get_current_user),
+):
+    """Импорт вопросов из .gift-файла — формат, которым уже пользуются
+    курсы колледжа (kst-test). Не всё конвертируется: вопросы на
+    настоящее соответствие (не на порядок) ClassQuiz не поддерживает —
+    они возвращаются в skipped, а не теряются молча."""
+    raw_bytes = await file.read()
+    try:
+        raw_text = raw_bytes.decode("utf-8")
+    except UnicodeDecodeError:
+        raise HTTPException(status_code=400, detail="Файл должен быть в кодировке UTF-8")
+
+    result = parse_gift(raw_text)
+    if len(result.questions) == 0:
+        raise HTTPException(
+            status_code=400,
+            detail="Не удалось разобрать ни одного вопроса — проверьте, что файл в формате GIFT",
+        )
+
+    quiz = Quiz(
+        id=uuid.uuid4(),
+        public=False,
+        title=title.strip() or "Импорт из GIFT",
+        description=f"Импортировано из {file.filename or 'GIFT-файла'}",
+        created_at=datetime.now(),
+        updated_at=datetime.now(),
+        user_id=user.id,
+        questions=[q.model_dump() for q in result.questions],
+        imported_from_kahoot=False,
+    )
+    await quiz.save()
+
+    return GiftImportResponse(
+        quiz=quiz,
+        imported_count=len(result.questions),
+        skipped=[GiftImportSkipped(name=name, reason=reason) for name, reason in result.skipped],
+        problems=result.problems,
     )
 
 
