@@ -20,7 +20,7 @@ SPDX-License-Identifier: MPL-2.0
 }
 
 .link-hover:hover {
-	color: #4e6e58;
+	color: #2f678c;
 }
 @layer base {
 	button:not(:disabled),
@@ -30,7 +30,7 @@ SPDX-License-Identifier: MPL-2.0
 }
 
 @utility normal-background {
-	@apply bg-gradient-to-r from-[#009444] via-[#39b54a] to-[#8dc63f] dark:bg-[#0f2702] dark:from-[#0f2702] dark:via-[#0f2702] dark:to-[#0f2702];
+	@apply bg-[#F5F6F6] dark:bg-[#F5F6F6];
 }
 
 @utility admin-button {
@@ -41,5 +41,5 @@ SPDX-License-Identifier: MPL-2.0
 	@apply px-4 py-2 leading-5 text-black dark:text-white transition-colors duration-200 transform bg-gray-50 dark:bg-gray-700 rounded-sm text-center hover:bg-gray-300 focus:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-gray-600;
 }
 @utility btn-nav {
-	@apply text-lg font-medium px-3 text-gray-600 hover:text-green-600 py-1.5 transition-all duration-300;
+	@apply text-lg font-medium px-3 text-gray-600 hover:text-[#2F678C] py-1.5 transition-all duration-300;
 }

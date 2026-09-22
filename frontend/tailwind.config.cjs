@@ -7,9 +7,25 @@ const config = {
 	darkMode: 'class',
 	theme: {
 		extend: {
+			fontFamily: {
+				sans: ['Montserrat', 'Arial', 'sans-serif']
+			},
 			colors: {
 				green: {
 					600: '#009444'
+				},
+				// Фирменная палитра КСТ (~/.claude/skills/lessons-spo/references/style.md)
+				kst: {
+					blue: '#2F678C',
+					graphite: '#405A67',
+					ink: '#26333C',
+					greyblue: '#9BAEB4',
+					wine: '#8F5B60',
+					red: '#C82E3E',
+					bg: '#F5F6F6',
+					card: '#FFFFFF',
+					line: '#E3E7EA',
+					muted: '#6B7A84'
 				}
 			},
 			typography: (theme) => ({

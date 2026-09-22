@@ -5,11 +5,10 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import '@fontsource/marck-script/index.css';
 	import { getLocalization } from '$lib/i18n';
 	import { signedIn, pathname } from '$lib/stores';
 	import { createTippy } from 'svelte-tippy';
-	import BrownButton from '$lib/components/buttons/brown.svelte';
+	import Logo from '$lib/brand/logo.svelte';
 	import { browser } from '$app/environment';
 	import { beforeNavigate } from '$app/navigation';
 	import { draw, slide } from 'svelte/transition';
@@ -50,11 +49,9 @@ SPDX-License-Identifier: MPL-2.0
 	<!-- Desktop navbar -->
 	<div class="hidden lg:flex lg:items-center lg:flex-row lg:justify-between">
 		<div class="lg:flex lg:items-center lg:flex-row gap-1">
-			<a
-				href="/"
-				class="font-black tracking-tight text-xl lg:text-2xl text-black marck-script link-hover px-3 lg:px-5"
-				>ClassQuiz</a
-			>
+			<a href="/" class="link-hover px-3 lg:px-5">
+				<Logo />
+			</a>
 			<a class="btn-nav border-2 rounded-sm" href="/play">{$t('words.play')}</a>
 			<a class="btn-nav" href="/explore">{$t('words.explore')}</a>
 			<a class="btn-nav" href="/search">{$t('words.search')}</a>
@@ -62,32 +59,6 @@ SPDX-License-Identifier: MPL-2.0
 				<a class="btn-nav" href="/dashboard">{$t('words.dashboard')}</a>
 			{:else}
 				<a class="btn-nav" href="/docs">{$t('words.docs')}</a>
-				<a
-					target="_blank"
-					class="btn-nav flex items-center gap-1"
-					href="https://github.com/mawoka-myblock/ClassQuiz"
-					>GitHub
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width="17"
-						height="17"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						class="lucide lucide-external-link"
-						><path
-							d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
-						/><polyline points="15 3 21 3 21 9" /><line
-							x1="10"
-							x2="21"
-							y1="14"
-							y2="3"
-						/></svg
-					>
-				</a>
 			{/if}
 		</div>
 		<div class="lg:flex lg:items-center lg:flex-row gap-1">
@@ -103,9 +74,6 @@ SPDX-License-Identifier: MPL-2.0
 			{/if}
 
 			<div class="fit-content flex items-center justify-center gap-2">
-				<BrownButton href="https://mawoka.eu/donate" target="_blank"
-					>{$t('navbar.donate')} <span class="">❤️</span></BrownButton
-				>
 				<div class="lg:flex items-center justify-center">
 					{#if darkMode}
 						<button
@@ -168,11 +136,9 @@ SPDX-License-Identifier: MPL-2.0
 	<div class="lg:hidden">
 		<!-- Navbar header -->
 		<div class="flex items-center justify-between">
-			<a
-				href="/"
-				class="font-black tracking-tight text-xl lg:text-2xl text-black marck-script link-hover px-3 lg:px-5"
-				>ClassQuiz</a
-			>
+			<a href="/" class="link-hover px-3 lg:px-5">
+				<Logo size="sm" />
+			</a>
 			<a class="btn-nav flex" href="/play">{$t('words.play')}</a>
 
 			<!-- Dark/Light mode toggle + Open/Close menu -->
@@ -291,32 +257,6 @@ SPDX-License-Identifier: MPL-2.0
 					<a class="btn-nav" href="/dashboard">{$t('words.dashboard')}</a>
 				{:else}
 					<a class="btn-nav" href="/docs">{$t('words.docs')}</a>
-					<a
-						target="_blank"
-						class="btn-nav flex items-center gap-1"
-						href="https://github.com/mawoka-myblock/ClassQuiz"
-						>GitHub
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							width="17"
-							height="17"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							class="lucide lucide-external-link"
-							><path
-								d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
-							/><polyline points="15 3 21 3 21 9" /><line
-								x1="10"
-								x2="21"
-								y1="14"
-								y2="3"
-							/></svg
-						>
-					</a>
 				{/if}
 
 				<hr class="my-1 border" />
@@ -331,12 +271,6 @@ SPDX-License-Identifier: MPL-2.0
 						>{$t('words.login')}</a
 					>
 				{/if}
-
-				<div class="fit-content flex items-center justify-center my-2">
-					<BrownButton href="https://mawoka.eu/donate" target="_blank"
-						>{$t('navbar.donate')} <span class="">❤️</span></BrownButton
-					>
-				</div>
 			</div>
 		{/if}
 	</div>
