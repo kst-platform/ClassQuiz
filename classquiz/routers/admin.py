@@ -32,17 +32,37 @@ from classquiz.helpers.avatar import gzipped_user_avatar
 
 router = APIRouter()
 
-_LIST_EXCLUDE = {
-    "password",
-    "verify_key",
-    "usersessions",
-    "avatar",
-    "quizs",
-    "fidocredentialss",
-    "backup_code",
-    "apikeys",
-    "totp_secret",
-}
+
+class AdminUserOut(BaseModel):
+    """Белый список полей для отдачи учётки через админ-API.
+
+    Намеренно НЕ response_model_exclude на самой ormar-модели User: на
+    проверке (22.09.2026, локальный запуск) выяснилось, что
+    response_model_exclude не отфильтровывает поля для list[User] —
+    /admin/users отдавал password (хеш argon2), backup_code, TOTP-секрет
+    и полностью аватар в base64 всем, у кого есть доступ к панели. Белый
+    список полей безопаснее в принципе: даже если в User появится новое
+    чувствительное поле, сюда оно не попадёт само по себе, в отличие от
+    чёрного списка, который пришлось бы не забыть дополнить.
+    """
+
+    id: uuid.UUID
+    email: str
+    username: str
+    verified: bool
+    approved: bool
+    created_at: datetime
+
+    @classmethod
+    def from_user(cls, user: User) -> "AdminUserOut":
+        return cls(
+            id=user.id,
+            email=user.email,
+            username=user.username,
+            verified=user.verified,
+            approved=user.approved,
+            created_at=user.created_at,
+        )
 
 
 async def _require_admin_password(admin: User, admin_password: str) -> None:
@@ -55,15 +75,17 @@ async def _sign_out_everywhere(user: User) -> None:
     await clear_cache_for_account(user)
 
 
-@router.get("/users", response_model=list[User], response_model_exclude=_LIST_EXCLUDE)
+@router.get("/users", response_model=list[AdminUserOut])
 async def list_users(_: User = Depends(get_admin_user)):
-    return await User.objects.order_by(User.created_at.asc()).all()
+    users = await User.objects.order_by(User.created_at.asc()).all()
+    return [AdminUserOut.from_user(u) for u in users]
 
 
-@router.get("/users/pending", response_model=list[User], response_model_exclude=_LIST_EXCLUDE)
+@router.get("/users/pending", response_model=list[AdminUserOut])
 async def list_pending_users(_: User = Depends(get_admin_user)):
     """Учётки, которые сами зарегистрировались и ждут одобрения."""
-    return await User.objects.filter(approved=False).order_by(User.created_at.asc()).all()
+    users = await User.objects.filter(approved=False).order_by(User.created_at.asc()).all()
+    return [AdminUserOut.from_user(u) for u in users]
 
 
 @router.post("/users/{user_id}/approve")
@@ -82,7 +104,7 @@ class CreateUserInput(BaseModel):
     password: str
 
 
-@router.post("/users", response_model=User, response_model_exclude=_LIST_EXCLUDE)
+@router.post("/users", response_model=AdminUserOut)
 async def create_user_as_admin(data: CreateUserInput, _: User = Depends(get_admin_user)):
     """Админ создаёт учётку сам — сразу approved, без очереди одобрения."""
     try:
@@ -103,7 +125,7 @@ async def create_user_as_admin(data: CreateUserInput, _: User = Depends(get_admi
         approved=True,
     )
     await user.save()
-    return user
+    return AdminUserOut.from_user(user)
 
 
 class ResetPasswordInput(BaseModel):
