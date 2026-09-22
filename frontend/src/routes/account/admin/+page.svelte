@@ -178,13 +178,13 @@
 				<div class="border border-[#E3E7EA] rounded-md overflow-hidden">
 					{#each pending as user (user.id)}
 						<div
-							class="flex items-center justify-between px-4 py-3 border-b border-[#E3E7EA] last:border-b-0 bg-[#F5F6F6]"
+							class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-4 py-3 border-b border-[#E3E7EA] last:border-b-0 bg-[#F5F6F6]"
 						>
-							<div>
-								<div class="font-medium text-[#26333C]">{user.username}</div>
-								<div class="text-sm text-[#6B7A84]">{user.email}</div>
+							<div class="min-w-0">
+								<div class="font-medium text-[#26333C] truncate">{user.username}</div>
+								<div class="text-sm text-[#6B7A84] truncate">{user.email}</div>
 							</div>
-							<button class="admin-button" onclick={() => approveUser(user)}>Одобрить</button>
+							<button class="admin-button w-fit" onclick={() => approveUser(user)}>Одобрить</button>
 						</div>
 					{/each}
 				</div>
@@ -198,13 +198,13 @@
 			<div class="border border-[#E3E7EA] rounded-md overflow-hidden">
 				{#each approved as user (user.id)}
 					<div
-						class="flex items-center justify-between px-4 py-3 border-b border-[#E3E7EA] last:border-b-0"
+						class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-4 py-3 border-b border-[#E3E7EA] last:border-b-0"
 					>
-						<div>
-							<div class="font-medium text-[#26333C]">{user.username}</div>
-							<div class="text-sm text-[#6B7A84]">{user.email}</div>
+						<div class="min-w-0">
+							<div class="font-medium text-[#26333C] truncate">{user.username}</div>
+							<div class="text-sm text-[#6B7A84] truncate">{user.email}</div>
 						</div>
-						<div class="flex gap-2">
+						<div class="flex gap-2 flex-wrap">
 							<button class="action-button" onclick={() => openResetModal(user)}>
 								Сменить пароль
 							</button>
@@ -256,7 +256,7 @@
 </div>
 
 {#if resetTarget}
-	<div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+	<div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4">
 		<form
 			class="bg-white rounded-md p-6 w-full max-w-sm flex flex-col gap-3"
 			onsubmit={submitReset}
@@ -294,7 +294,7 @@
 {/if}
 
 {#if deleteTarget}
-	<div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+	<div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4">
 		<form
 			class="bg-white rounded-md p-6 w-full max-w-sm flex flex-col gap-3"
 			onsubmit={submitDelete}

@@ -177,16 +177,16 @@
 				{/if}
 				{#each groups as g (g.id)}
 					<div
-						class="flex items-center justify-between px-4 py-3 border-b border-[#E3E7EA] last:border-b-0 cursor-pointer hover:bg-[#F5F6F6]"
+						class="flex items-center justify-between gap-2 px-4 py-3 border-b border-[#E3E7EA] last:border-b-0 cursor-pointer hover:bg-[#F5F6F6]"
 						class:bg-[#F5F6F6]={selected?.id === g.id}
 						onclick={() => openGroup(g)}
 					>
-						<div>
-							<div class="font-medium text-[#26333C]">{g.name}</div>
+						<div class="min-w-0">
+							<div class="font-medium text-[#26333C] truncate">{g.name}</div>
 							<div class="text-sm text-[#6B7A84]">{g.member_count} студентов</div>
 						</div>
 						<button
-							class="action-button text-[#C82E3E]"
+							class="action-button text-[#C82E3E] shrink-0"
 							onclick={(e) => {
 								e.stopPropagation();
 								deleteTarget = g;
@@ -268,7 +268,7 @@
 </div>
 
 {#if deleteTarget}
-	<div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+	<div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4">
 		<div class="bg-white rounded-md p-6 w-full max-w-sm flex flex-col gap-3">
 			<h3 class="font-bold text-[#26333C]">Удалить группу «{deleteTarget.name}»?</h3>
 			<p class="text-sm text-[#6B7A84]">
