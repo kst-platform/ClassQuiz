@@ -1,11 +1,18 @@
 # SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+# SPDX-FileCopyrightText: 2026 ГБПОУ КСТ
 #
 # SPDX-License-Identifier: MPL-2.0
 
-:8080 {
+# Раньше здесь стоял голый ":8080" без домена — Caddy в таком виде НЕ
+# получает автоматический HTTPS-сертификат (для этого ему нужен настоящий
+# домен в адресе сайта). {$DOMAIN} берётся из переменной окружения
+# контейнера (см. docker-compose.yml) — при реальном домене Caddy сам
+# закажет и продлит сертификат Let's Encrypt; localhost по умолчанию
+# оставлен для локальной проверки без домена (тогда сертификат
+# самоподписанный, браузер предупредит — это нормально для теста).
+{$DOMAIN:localhost} {
 	reverse_proxy * http://frontend:3000
 	reverse_proxy /api/* http://api:80
 	reverse_proxy /openapi.json http://api:80 # Only use if you need to serve the OpenAPI spec
 	reverse_proxy /socket.io/* api:80
-
 }

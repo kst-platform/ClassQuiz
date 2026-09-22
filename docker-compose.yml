@@ -17,7 +17,12 @@ services:
       REDIS_URL: redis://redis:6379/0?decode_responses=True
       API_URL: http://api:80
   api:
-    image: ghcr.io/mawoka-myblock/classquiz-backend:master
+    # КСТ.Квиз: собираем из своего кода (Dockerfile в корне репозитория),
+    # а не тянем готовый образ апстрима — иначе Фазы 2–4 (учётки, группы,
+    # импорт GIFT) просто не попадут в контейнер. См. KST_TODO.md, Фаза 5.
+    build:
+      context: .
+      dockerfile: Dockerfile
     restart: &restart always
     depends_on: &depends
       - db
@@ -26,14 +31,18 @@ services:
     environment: &env_vars # --- DON'T CHANGE FROM HERE ---
       DB_URL: "postgresql://postgres:classquiz@db:5432/classquiz" # DON'T CHANGE
       REDIS: "redis://redis:6379/0?decode_responses=True" # DON'T CHANGE
-      SECRET_KEY: "TOP_SECRET" # Don't change it manually, use the one-liner provided in the documentation
+      SECRET_KEY: "TOP_SECRET" # Сгенерировать перед деплоем: openssl rand -hex 32 — никогда не коммитить настоящий
       MAX_WORKERS: "1" # Very important and DON'T CHANGE
       ACCESS_TOKEN_EXPIRE_MINUTES: 30 # DON'T CHANGE
       MEILISEARCH_URL: "http://meilisearch:7700" # DON'T CHANGE
       # -- DON'T CHANGE TILL HERE ---
 
       # --- GENERAL CONFIG ---
-      ROOT_ADDRESS: "https://classquiz.de" # CHANGE IT (without a "/" at the end)
+      ROOT_ADDRESS: "https://REPLACE_WITH_YOUR_DOMAIN" # CHANGE IT — домен КСТ.Квиз (без "/" на конце)
+      # Username учёток с правами администратора платформы (одобрение
+      # регистрации, управление учётками — /account/admin). Список через
+      # запятую в JSON-формате, например: ADMINS: '["dmitry_admin"]'
+      ADMINS: '[]' # ЗАПОЛНИТЬ перед первым запуском — иначе панель /account/admin недоступна никому
 
       # --- MAIL CONFIG ---
       MAIL_PORT: "587"
@@ -92,10 +101,21 @@ services:
     volumes:
       - data:/var/lib/postgresql/data
   proxy:
-    image: ghcr.io/mawoka-myblock/classquiz-caddy:master
+    build:
+      context: .
+      dockerfile: Dockerfile.caddy
     restart: always
+    environment:
+      # Настоящий домен КСТ.Квиз (например quiz.kst-college.ru, без https://
+      # и без "/" на конце) — без него Caddy не сможет заказать сертификат
+      # Let's Encrypt и останется на localhost с самоподписанным сертификатом.
+      DOMAIN: "localhost" # CHANGE IT перед реальным деплоем
     ports:
-      - "8000:8080" # The 8000 can be changed.
+      - "80:80" # обязателен для получения сертификата (ACME HTTP-01)
+      - "443:443" # настоящий HTTPS после того, как DOMAIN указывает сюда
+    volumes:
+      - caddy-data:/data
+      - caddy-config:/config
   meilisearch:
     image: getmeili/meilisearch:v0.28.0
     restart: always
@@ -104,7 +124,9 @@ services:
     volumes:
       - meilisearch-data:/data.ms
   worker:
-    image: ghcr.io/mawoka-myblock/classquiz-backend:master
+    build:
+      context: .
+      dockerfile: Dockerfile
     environment: *env_vars
     depends_on: *depends
     restart: *restart
@@ -113,3 +135,5 @@ services:
 volumes:
   data:
   meilisearch-data:
+  caddy-data:
+  caddy-config:
