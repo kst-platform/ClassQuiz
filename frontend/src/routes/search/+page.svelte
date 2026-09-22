@@ -42,7 +42,7 @@ SPDX-License-Identifier: MPL-2.0
 </script>
 
 <svelte:head>
-	<title>ClassQuiz - Search</title>
+	<title>КСТ.Квиз — Поиск</title>
 </svelte:head>
 
 <div>

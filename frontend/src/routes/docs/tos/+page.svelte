@@ -15,7 +15,7 @@ SPDX-License-Identifier: MPL-2.0
 </script>-->
 
 <svelte:head>
-	<title>ClassQuiz/docs - Terms of Service</title>
+	<title>КСТ.Квиз — Условия использования</title>
 	<meta
 		name="description"
 		content="The terms of service of ClassQuiz, the open-source quiz-application"

@@ -39,7 +39,7 @@ SPDX-License-Identifier: MPL-2.0
 </script>
 
 <svelte:head>
-	<title>ClassQuiz - Reset your Password</title>
+	<title>КСТ.Квиз — Сброс пароля</title>
 </svelte:head>
 
 <div class="flex items-center justify-center h-full px-4">

@@ -21,7 +21,7 @@ SPDX-License-Identifier: MPL-2.0
 </script>
 
 <svelte:head>
-	<title>ClassQuiz - Explore</title>
+	<title>КСТ.Квиз — Обзор</title>
 </svelte:head>
 
 <div class="grid lg:grid-cols-3 grid-cols-1">

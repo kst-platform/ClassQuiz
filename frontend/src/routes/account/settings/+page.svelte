@@ -141,7 +141,7 @@ SPDX-License-Identifier: MPL-2.0
 </script>
 
 <svelte:head>
-	<title>ClassQuiz - Settings</title>
+	<title>КСТ.Квиз — Настройки</title>
 </svelte:head>
 
 {#await getUser()}

@@ -4,7 +4,7 @@ SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
 SPDX-License-Identifier: MPL-2.0
 -->
 <svelte:head>
-	<title>ClassQuiz/docs - Index</title>
+	<title>КСТ.Квиз — Справка</title>
 	<meta
 		name="description"
 		content="The overview about the docs for ClassQuiz, the open-source quiz-application"

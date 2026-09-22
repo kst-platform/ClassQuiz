@@ -5,7 +5,7 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <svelte:head>
-	<title>ClassQuiz/docs - Roadmap</title>
+	<title>КСТ.Квиз — Справка — Планы</title>
 	<meta
 		name="description"
 		content="The roadmap for ClassQuiz, the open-source quiz-application"

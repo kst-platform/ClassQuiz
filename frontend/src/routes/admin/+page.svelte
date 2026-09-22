@@ -240,7 +240,7 @@ SPDX-License-Identifier: MPL-2.0
 
 <svelte:window onbeforeunload={confirmUnload} />
 <svelte:head>
-	<title>ClassQuiz - Host</title>
+	<title>КСТ.Квиз — Ведущий</title>
 </svelte:head>
 <div
 	class="min-h-screen min-w-full"

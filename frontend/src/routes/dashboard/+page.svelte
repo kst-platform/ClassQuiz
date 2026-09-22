@@ -107,7 +107,7 @@ SPDX-License-Identifier: MPL-2.0
 </script>
 
 <svelte:head>
-	<title>ClassQuiz - Dashboard</title>
+	<title>КСТ.Квиз — Мои квизы</title>
 </svelte:head>
 <Analytics bind:quiz={analytics_quiz_selected} />
 <CommandpaletteNotice />

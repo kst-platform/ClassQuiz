@@ -5,7 +5,7 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <svelte:head>
-	<title>ClassQuiz/docs - Import from Kahoot</title>
+	<title>КСТ.Квиз — Справка — Импорт из Kahoot</title>
 	<meta
 		name="description"
 		content="How to import quizzes from KAHOOT! into ClassQuiz, the open-source quiz-application,  easily"

@@ -81,7 +81,7 @@ SPDX-License-Identifier: MPL-2.0
 </script>
 
 <svelte:head>
-	<title>ClassQuiz - Login</title>
+	<title>КСТ.Квиз — Вход</title>
 </svelte:head>
 <div class="flex items-center justify-center h-screen">
 	{#if verified}

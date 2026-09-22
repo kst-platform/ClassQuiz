@@ -15,7 +15,7 @@ SPDX-License-Identifier: MPL-2.0
 </script>
 
 <svelte:head>
-	<title>ClassQuiz/docs - Development-setup</title>
+	<title>КСТ.Квиз — Справка — Разработка</title>
 	<meta
 		name="description"
 		content="How to import quizzes from KAHOOT! into ClassQuiz, the open-source quiz-application,  easily"

@@ -135,11 +135,11 @@ SPDX-License-Identifier: MPL-2.0
 	});
 
 	socket.on('username_already_exists', () => {
-		window.alert('Username already exists!');
+		window.alert('Это имя уже занято в игре!');
 	});
 
 	socket.on('kick', () => {
-		window.alert('You got kicked');
+		window.alert('Вас удалили из игры');
 		preventReload = false;
 		game_pin = '';
 		username = '';
@@ -182,7 +182,7 @@ SPDX-License-Identifier: MPL-2.0
 <svelte:window onbeforeunload={confirmUnload} onblur={onWindowBlur} onfocus={onWindowFocus} />
 <svelte:document onvisibilitychange={onVisibilityChange} />
 <svelte:head>
-	<title>ClassQuiz - Play</title>
+	<title>КСТ.Квиз — Игра</title>
 </svelte:head>
 {#if window_blurred}
 	<div

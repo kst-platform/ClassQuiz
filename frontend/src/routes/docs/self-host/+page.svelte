@@ -14,7 +14,7 @@ SPDX-License-Identifier: MPL-2.0
 </script>
 
 <svelte:head>
-	<title>ClassQuiz/docs - Self-Host</title>
+	<title>КСТ.Квиз — Справка — Развёртывание</title>
 	<meta
 		name="description"
 		content="How to self-host ClassQuiz, the open-source quiz-application"

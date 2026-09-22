@@ -5,7 +5,7 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <svelte:head>
-	<title>ClassQuiz/docs - PoW</title>
+	<title>КСТ.Квиз — Справка</title>
 	<meta
 		name="description"
 		content="Use-case of PoW for ClassQuiz, the open-source quiz-application"
