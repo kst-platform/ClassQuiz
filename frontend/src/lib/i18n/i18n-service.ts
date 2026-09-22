@@ -45,7 +45,7 @@ export class I18nService {
 		this.i18n.use(LanguageDetector).init({
 			// lng: INITIAL_LANGUAGE,
 			compatibilityJSON: 'v4',
-			fallbackLng: 'en',
+			fallbackLng: 'ru',
 			debug: false,
 			defaultNS: 'translation',
 			interpolation: {

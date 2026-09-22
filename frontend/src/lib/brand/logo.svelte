@@ -1,9 +1,16 @@
 <!--
-	Логотип «КСТ.Квиз»: простая иконка + текстовый wordmark.
-	Фирменная палитра колледжа — ~/.claude/skills/lessons-spo/references/style.md.
-	Без изображений-логотипов КСТ/МО — только цвет и типографика.
+	SPDX-FileCopyrightText: 2026 ГБПОУ КСТ
+
+	SPDX-License-Identifier: MPL-2.0
+
+	Логотип «КСТ.Квиз»: присланная иконка (assets/brand/logo-icon.png,
+	обрезана по содержимому, прозрачный фон) + текстовый wordmark шрифтом.
+	Текст остаётся HTML/CSS, а не частью картинки — чтобы не размывался
+	при увеличении (на главной странице лого крупнее, чем в навбаре).
 -->
 <script lang="ts">
+	import IconSrc from '$lib/assets/brand/logo-icon.png';
+
 	interface Props {
 		size?: 'sm' | 'md';
 	}
@@ -13,21 +20,11 @@
 </script>
 
 <span class="inline-flex items-center gap-2">
-	<svg
-		width={iconPx}
-		height={iconPx}
-		viewBox="0 0 34 34"
-		xmlns="http://www.w3.org/2000/svg"
-		aria-hidden="true"
+	<img src={IconSrc} alt="" width={iconPx} height={iconPx} aria-hidden="true" />
+	<span
+		class={`font-extrabold tracking-tight text-[#26333C] ${textClass}`}
+		style="font-family:'Montserrat',Arial,sans-serif"
 	>
-		<rect width="34" height="34" rx="8" fill="#2F678C" />
-		<path
-			d="M12 13.2c0-2.9 2.2-4.9 5.2-4.9 3 0 5.1 1.9 5.1 4.6 0 2-1.1 3.3-2.7 4.2-1.3.7-1.7 1.2-1.7 2.1v.5h-2.9v-.7c0-1.7.8-2.7 2.3-3.5 1.3-.7 1.9-1.4 1.9-2.5 0-1.2-.9-2-2.2-2-1.3 0-2.2.8-2.3 2.2H12Z"
-			fill="#FFFFFF"
-		/>
-		<circle cx="17.1" cy="24.4" r="1.7" fill="#C82E3E" />
-	</svg>
-	<span class={`font-extrabold tracking-tight text-[#26333C] ${textClass}`} style="font-family:'Montserrat',Arial,sans-serif">
 		КСТ<span class="text-[#2F678C]">.</span>Квиз
 	</span>
 </span>

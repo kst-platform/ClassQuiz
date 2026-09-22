@@ -11,6 +11,13 @@ SPDX-License-Identifier: MPL-2.0
 @plugin "@tailwindcss/typography";
 @tailwind utilities;
 
+/* Фирменный шрифт КСТ (~/.claude/skills/lessons-spo/references/style.md).
+   Явно на body: расширение tailwind.config.cjs само по себе тело страницы
+   не переопределяет, без этого правила показывался системный шрифт. */
+body {
+	font-family: 'Montserrat', Arial, sans-serif;
+}
+
 .marck-script {
 	font-family: 'Marck Script';
 }

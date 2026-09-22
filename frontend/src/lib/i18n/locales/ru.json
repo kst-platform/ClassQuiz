@@ -134,7 +134,7 @@
         "download": "Скачать",
         "continue": "Продолжить",
         "backup_code": "Резервный код",
-        "totp": "",
+        "totp": "TOTP",
         "text": "Текст",
         "order": "Заказ",
         "results": "Результаты",
@@ -194,7 +194,8 @@
         "browser": "Браузер",
         "view": "Вид",
         "info": "Информация",
-        "player": "Плеер"
+        "player": "Плеер",
+        "quiztivity": "Quiztivity"
     },
     "editor": {
         "time_in_seconds": "Время в секундах",
@@ -203,7 +204,287 @@
         "bg_image": "Фоновое изображение",
         "slide": {
             "headline": "Заголовок",
-            "text": "Текст"
+            "text": "Текст",
+            "headline_description": "Крупный текст для заголовка",
+            "text_description": "Более мелкий текст для абзаца",
+            "rectangle": "Прямоугольник",
+            "rectangle_description": "Просто прямоугольник"
+        },
+        "right_or_true?": "Верно?",
+        "add_new_answer": "Добавить вариант ответа",
+        "delete_question": "Удалить вопрос",
+        "not_all_links_imgur_links": "Не все ссылки — ссылки Imgur!",
+        "no_title": "Без названия…",
+        "empty": "Пусто…",
+        "abcd_description": "Можно выбрать только один ответ",
+        "voting_description": "Ответы не приносят баллов",
+        "check_choice_description": "Баллы начисляются, только если выбраны все правильные варианты",
+        "order_description": "Ответы нужно расставить в правильном порядке",
+        "text_description": "Игроки вводят ответ текстом",
+        "range_description": "Число выбирается ползунком в заданном диапазоне",
+        "need_more_help": "Нужна помощь?",
+        "visit_docs": "Смотрите справку.",
+        "enter_answer": "Введите вариант ответа",
+        "enable_reorder": "Включить режим перестановки",
+        "disable_reorder": "Выключить режим перестановки",
+        "advanced_settings": "Дополнительные настройки",
+        "hide_question_results": "Скрыть результаты вопроса?"
+    },
+    "import_page": {
+        "need_help": "Нужна помощь?",
+        "visit_docs": "Смотрите справку",
+        "a_kahoot_quiz": "Квиз из Kahoot!",
+        "url_should_look_like_this": "Ссылка должна выглядеть так: https://create.kahoot.it/details/...",
+        "side_import_kahoot": "Здесь можно импортировать квизы, размещённые в Kahoot!.",
+        "classquiz_quiz": "Квиз в формате КСТ.Квиз",
+        "upload_file_ending": "Загрузите файл с расширением .cqa или .xlsx",
+        "this_side_classquiz": "Здесь можно импортировать квизы, экспортированные из КСТ.Квиз.",
+        "this_side_classquiz_excel": "Можно также загрузить Excel-файл по образцу шаблона. Если квиз с таким названием уже существует, вопросы будут добавлены к нему.",
+        "download_template_here": "Скачать шаблон"
+    },
+    "admin_page": {
+        "already_registered_as_admin": "Ведущий для этой игры уже подключён.",
+        "start_game": "Начать игру",
+        "time_left": "Осталось времени",
+        "get_results": "Получить результаты",
+        "get_results_and_stop_time": "Получить результаты и остановить время",
+        "get_final_results": "Получить итоговые результаты",
+        "show_next_question": "Показать следующий вопрос",
+        "start_by_showing_first_question": "Начните с показа первого вопроса.",
+        "no_answers": "Нет ответов!",
+        "stop_time": "Остановить время",
+        "save_results": "Сохранить результаты",
+        "next_question": "Следующий вопрос ({{question}})",
+        "show_results": "Показать результаты",
+        "stop_time_and_solutions": "Остановить время и показать правильные ответы",
+        "enter_answer_into_field": "Введите ответ в поле!",
+        "answers_submitted": "Ответов отправлено: {{answer_count}}",
+        "request_export_results": "Запросить выгрузку результатов",
+        "download_export_results": "Скачать результаты",
+        "export_results": "Экспорт результатов"
+    },
+    "password_reset_page": {
+        "reset_password": "Сбросить пароль"
+    },
+    "settings_page": {
+        "old_password": "Старый пароль",
+        "new_password": "Новый пароль",
+        "repeat_password": "Повторите пароль",
+        "change_password_submit": "Сменить пароль!",
+        "last_seen": "Последний вход",
+        "check_location": "Посмотреть местоположение",
+        "delete_this_session": "Завершить эту сессию",
+        "this_session?": "Эта сессия?",
+        "change_avatar": "Сменить аватар",
+        "security_settings": "Настройки безопасности",
+        "add_api_key": "Добавить API-ключ"
+    },
+    "explore_page": {
+        "made_by": "Автор",
+        "imported_by": "Импортировал(а)"
+    },
+    "search_page": {
+        "at_least_3_characters": "Введите не менее 3 символов…",
+        "nothing_here": "Здесь ничего нет…"
+    },
+    "play_page": {
+        "end_sentence": "Это всё! Квиз завершён.",
+        "1st_place": "1 место",
+        "2nd_place": "2 место",
+        "3rd place": "3 место",
+        "with_out_of": "{{correct_questions}} из {{total_question_count}} верно",
+        "final_result_rank": "{{place}}: {{username}} — {{points}} баллов",
+        "your_score": "Ваш счёт: {{score}}",
+        "join_description": "Зайдите на {{url}} и введите код {{pin}}.",
+        "join_by_entering_code": "Присоединитесь, введя код",
+        "points_added": "Баллы начислены",
+        "your_place": "Вы на {{place}} месте!",
+        "players_waiting": "{{count}} игрок ждёт",
+        "players_waiting_plural": "{{count}} игроков ждут"
+    },
+    "editor_page": {
+        "add_an_answer": "Добавить вариант ответа",
+        "right_click_to_delete": "Нажмите правой кнопкой на ответ, чтобы удалить его!"
+    },
+    "dashboard": {
+        "search_for_own_quizzes": "Поиск по своим квизам",
+        "views_n_plays": "Просмотры и запуски",
+        "info_analytics": "«Запуски» показывают, сколько раз квиз был запущен (включая вас), а «Просмотры» — сколько раз открывали страницу просмотра, в том числе ботами.",
+        "commandpalette_notice": "Нажмите <kbd>Ctrl</kbd>+<kbd>k</kbd> или <kbd>Meta</kbd>+<kbd>k</kbd>, чтобы открыть командную палитру",
+        "create_quiz": "Создать новый квиз"
+    },
+    "footer": {
+        "self_ads": "Сделано преподавателями КСТ.",
+        "more_details_here": "Подробнее здесь",
+        "donate": "Поддержать проект: {{donate_link}}."
+    },
+    "error_page": {
+        "404_text": "Страница, которую вы искали, пропала или никогда не существовала. Кто знает?",
+        "unknown_error_text": "Такого не должно было случиться. Скорее всего, дело не в вас — попробуйте обновить страницу."
+    },
+    "uploader": {
+        "add_image": "Добавить медиафайл",
+        "select_upload_type": "Выберите тип загрузки",
+        "upload_a_video": "Загрузить видео",
+        "upload_video_popup_notice": "Открылось всплывающее окно — посмотрите его для подробностей",
+        "upload_video": "Загрузить видео",
+        "visit_pixabay": "Перейти на Pixabay",
+        "images_by_pixabay": "Изображения предоставлены Pixabay",
+        "search_english_only": "Поиск работает только на английском языке",
+        "next_page": "Следующая страница",
+        "previous_page": "Предыдущая страница"
+    },
+    "avatar_settings": {
+        "skin_color": "Цвет кожи",
+        "top_type": "Причёска",
+        "hair_color": "Цвет волос",
+        "facial_hair_type": "Борода/усы",
+        "facial_hair_color": "Цвет бороды/усов",
+        "mouth_type": "Рот",
+        "eyebrow_type": "Брови",
+        "accessories_type": "Очки",
+        "hat_color": "Цвет головного убора",
+        "clothe_type": "Одежда",
+        "clothe_color": "Цвет одежды",
+        "clothe_graphic_type": "Рисунок на одежде",
+        "thats_you": "Это вы!",
+        "start_over": "Начать заново",
+        "go_back": "Назад"
+    },
+    "results_page": {
+        "no_results_so_far": "Пока нет сохранённых результатов…",
+        "quiz_title": "Название квиза",
+        "date_played": "Дата проведения",
+        "player_count": "Количество игроков",
+        "general_overview": {
+            "sentence": "В квизе «<b>{{title}}</b>», проведённом <b>{{date}}</b>, участвовало <b>{{player_count}}</b> игроков со средним баллом <b>{{average_score}}</b>."
         }
+    },
+    "result_page": {
+        "player_name": "Имя игрока",
+        "custom_field": "Дополнительное поле",
+        "average_score": "Средний балл: {{average_score}}",
+        "correct_answer": "{{count}} правильный ответ",
+        "correct_answer_plural": "{{count}} правильных ответов",
+        "time_taken": "Затраченное время",
+        "player_score": "Баллы игрока",
+        "player_correct_questions": "Правильные ответы"
+    },
+    "controllers": {
+        "add_new_controller": "Добавить контроллер",
+        "player_name": "Имя игрока",
+        "first_seen": "Впервые подключён",
+        "last_seen": "Последний раз в сети",
+        "controller_name": "Название контроллера",
+        "version_overview": "Доступна новая версия {{newest_version}}, установлена версия {{current_version}}.",
+        "already_latest_version": "У вас уже последняя версия",
+        "cancel_update": "Отменить обновление!",
+        "update_from_to": "Обновить с {{current_version}} до {{newest_version}}"
+    },
+    "navbar": {
+        "donate": "Поддержать"
+    },
+    "security_settings": {
+        "backup_code": "Резервный код",
+        "get_backup_code": "Получить резервный код",
+        "activate_2fa": "Включить двухфакторную аутентификацию",
+        "2fa_activated": "Двухфакторная аутентификация включена",
+        "2fa_deactivated": "Двухфакторная аутентификация выключена",
+        "webauthn": "Webauthn",
+        "webauthn_available": "Webauthn доступен",
+        "webauthn_unavailable": "Webauthn недоступен",
+        "add_security_key": "Добавить ключ безопасности",
+        "totp": "TOTP",
+        "totp_available": "TOTP доступен",
+        "totp_unavailable": "TOTP недоступен",
+        "disable_totp": "Выключить TOTP",
+        "enable_totp": "Включить TOTP",
+        "backup_codes": {
+            "your_backup_code": "Ваш резервный код",
+            "save_somewhere_save": "Сохраните его в надёжном месте!",
+            "download_code": "Скачать код"
+        },
+        "totp_setup": {
+            "scan_to_set_up": "Отсканируйте этот QR-код, чтобы настроить вход",
+            "enter_as_secret_if_no_see_code": "Если не получается отсканировать QR-код, введите этот секретный ключ вручную",
+            "totp_setup": "Настройка TOTP",
+            "do_not_forget_backup_code": "Не забудьте сохранить резервный код!"
+        }
+    },
+    "view_quiz_page": {
+        "made_by": "Автор",
+        "view_on_kahoot": "Посмотреть оригинал"
+    },
+    "start_game": {
+        "captcha_message": "Если включено, в браузере игроков загрузится Google ReCaptcha. Включайте, только если это действительно нужно — для загрузки капчи требуется согласие каждого игрока.",
+        "normal_mode_description": "Вопрос и ответы видны только на экране ведущего. У игроков — только цветные кнопки с символами, которые соответствуют вариантам на экране ведущего.",
+        "old_school_mode": "Классический режим",
+        "old_school_mode_description": "Вопросы и изображения показываются и на экране ведущего, и на экранах игроков",
+        "start_game": "Начать игру"
+    },
+    "quiztivity": {
+        "editor": {
+            "select_page_type": "Выберите тип страницы",
+            "move_left": "Переместить влево",
+            "move_right": "Переместить вправо",
+            "title_placeholder": "Введите заголовок",
+            "add_new": "Добавить",
+            "delete": "Удалить",
+            "open_shares_menu": "Открыть меню доступа",
+            "shares": {
+                "add_new_share": "Добавить доступ",
+                "expires_on": "Истекает {{date}}",
+                "never_expires": "Бессрочно"
+            }
+        },
+        "memory": {
+            "editor": {
+                "add_card": "Добавить карточку",
+                "upload_image": "Загрузить изображение",
+                "add_pair": "Добавить пару"
+            }
+        },
+        "play": {
+            "memory": {
+                "try_count": "Попыток: {{try_count}}"
+            }
+        },
+        "share_expired": "Срок доступа истёк"
+    },
+    "components": {
+        "popover": {
+            "copied_to_clipboard": "Скопировано в буфер обмена!"
+        }
+    },
+    "public_user_page": {
+        "joined_on": "Зарегистрирован(а) {{date}}",
+        "no_original_quizzes": "У этого пользователя нет собственных квизов",
+        "user_not_found": "Пользователь не найден"
+    },
+    "file_dashboard": {
+        "not_available": "Недоступно",
+        "missing": "ОТСУТСТВУЕТ!",
+        "unset": "Не задано",
+        "size": "Размер: {{size}} МиБ",
+        "caption": "Подпись: {{caption}}",
+        "filename": "Имя файла: {{filename}}",
+        "uploaded": "Загружено: {{date}}",
+        "imported": "Импортировано: {{yes_or_no}}",
+        "edit_details": "Изменить данные",
+        "delete_image": "Удалить изображение",
+        "edit_the_image": "Редактировать изображение",
+        "filename_word": "Имя файла",
+        "alt_text": "Альтернативный текст / подпись",
+        "storage_usage": "Использовано {{used}} МиБ из {{total}} МиБ — это {{percent}}% вашего хранилища."
+    },
+    "video_uploader": {
+        "time_elapsed": "Прошло времени",
+        "time_remaining": "Осталось времени"
+    },
+    "downloader": {
+        "select_download_type": "Выберите формат скачивания",
+        "own_format": "Свой формат",
+        "excel_format": "Формат Excel",
+        "help": "Свой формат (.cqa) сохраняет картинки и поддерживает все типы вопросов, формат Excel — только голосование и вопросы с выбором варианта."
     }
 }

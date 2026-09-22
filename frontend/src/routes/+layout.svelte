@@ -32,10 +32,10 @@ SPDX-License-Identifier: MPL-2.0
 			document.documentElement.classList.remove('dark');
 		}
 	}
-	let start_language = 'en';
+	let start_language = 'ru';
 	const rtl_languages = ['he', 'prs', 'ps'];
 	if (browser) {
-		start_language = localStorage.getItem('language') ?? 'en';
+		start_language = localStorage.getItem('language') ?? 'ru';
 		document.documentElement.lang = start_language;
 		document.documentElement.dir = rtl_languages.includes(start_language) ? 'rtl' : 'ltr';
 	}
