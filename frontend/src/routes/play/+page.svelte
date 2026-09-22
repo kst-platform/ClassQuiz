@@ -158,16 +158,50 @@ SPDX-License-Identifier: MPL-2.0
 	let bg_color = $derived(gameData ? gameData.background_color : undefined);
 
 	// The rest
+
+	// Заглушка при потере фокуса окна/вкладки (переключение в другое
+	// приложение, alt-tab) — по просьбе пользователя, как деликатная мера
+	// против пересъёма экрана. Это НЕ детектор скриншота — такого API у
+	// браузера нет физически — а реакция на потерю фокуса, которая обычно
+	// происходит перед переключением в программу для снимка экрана.
+	// Срабатывает и на обычный alt-tab/уведомление, это ожидаемо.
+	let window_blurred = $state(false);
+	const onWindowBlur = () => {
+		window_blurred = true;
+	};
+	const onWindowFocus = () => {
+		window_blurred = false;
+	};
+	const onVisibilityChange = () => {
+		if (typeof document !== 'undefined') {
+			window_blurred = document.hidden;
+		}
+	};
 </script>
 
-<svelte:window onbeforeunload={confirmUnload} />
+<svelte:window onbeforeunload={confirmUnload} onblur={onWindowBlur} onfocus={onWindowFocus} />
+<svelte:document onvisibilitychange={onVisibilityChange} />
 <svelte:head>
 	<title>ClassQuiz - Play</title>
 </svelte:head>
+{#if window_blurred}
+	<div
+		class="fixed inset-0 z-[9999] flex items-center justify-center bg-[#26333C] text-white text-center px-6"
+	>
+		<div>
+			<p class="text-xl font-bold mb-2">Содержимое скрыто</p>
+			<p class="text-sm text-[#9BAEB4]">
+				Окно потеряло фокус — вернитесь на вкладку с игрой, чтобы продолжить
+			</p>
+		</div>
+	</div>
+{/if}
 <div
-	class="min-h-screen min-w-full"
+	class="min-h-screen min-w-full select-none"
 	style="background: {bg_color ? bg_color : 'transparent'}"
 	class:text-black={bg_color}
+	oncopy={(e) => e.preventDefault()}
+	oncontextmenu={(e) => e.preventDefault()}
 >
 	<div>
 		{#if !gameMeta.started && gameData === undefined}
