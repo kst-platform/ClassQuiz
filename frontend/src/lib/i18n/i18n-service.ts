@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MPL-2.0
 
 import i18next from 'i18next';
+import ru from './locales/ru.json';
 import en from './locales/en.json';
 import de from './locales/de.json';
 import fr from './locales/fr.json';
@@ -60,6 +61,7 @@ export class I18nService {
 				lookupSessionStorage: true
 			}
 		});
+		this.i18n.addResourceBundle('ru', 'translation', ru);
 		this.i18n.addResourceBundle('en', 'translation', en);
 		this.i18n.addResourceBundle('de', 'translation', de);
 		this.i18n.addResourceBundle('fr', 'translation', fr);
