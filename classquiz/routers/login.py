@@ -16,6 +16,33 @@ from pydantic import BaseModel, ValidationError
 from classquiz.auth import verify_password
 from classquiz.config import redis, settings
 
+# Ограничение на неудачные попытки входа — без этого пароль можно подбирать
+# сколько угодно раз, что и есть самый практичный способ "взломать" учётку.
+# Считаем по user_id (а не по IP), потому что цель защиты — не дать подобрать
+# пароль конкретного человека, а не просто затруднить перебор с одного адреса.
+LOGIN_FAIL_LIMIT = 8
+LOGIN_FAIL_WINDOW_SECONDS = 15 * 60
+
+
+async def _check_login_rate_limit(user_id: str) -> None:
+    attempts = await redis.get(f"login_fail:{user_id}")
+    if attempts is not None and int(attempts) >= LOGIN_FAIL_LIMIT:
+        raise HTTPException(
+            status_code=429,
+            detail="Слишком много неудачных попыток входа. Попробуйте снова через 15 минут.",
+        )
+
+
+async def _record_login_failure(user_id: str) -> None:
+    key = f"login_fail:{user_id}"
+    attempts = await redis.incr(key)
+    if attempts == 1:
+        await redis.expire(key, LOGIN_FAIL_WINDOW_SECONDS)
+
+
+async def _clear_login_failures(user_id: str) -> None:
+    await redis.delete(f"login_fail:{user_id}")
+
 from classquiz.db.models import User, FidoCredentials
 from webauthn import (
     generate_authentication_options,
@@ -171,8 +198,10 @@ async def step_1_endpoint(session_id: str, data: StepInput, request: Request, re
         print("unknown step")
         raise HTTPException(401)
     user = await User.objects.select_related("fidocredentialss").get_or_none(id=uuid.UUID(login_session.user_id))
+    await _check_login_rate_limit(login_session.user_id)
     if data.auth_type == StartLoginResponseTypes.PASSWORD:
         if verify_password(data.data, user.password):
+            await _clear_login_failures(login_session.user_id)
             if len(login_session.step_2) == 0 or (step_id == 2 and login_session.step1_success is True):
                 return await log_user_in(user, request, response)
             else:
@@ -181,10 +210,12 @@ async def step_1_endpoint(session_id: str, data: StepInput, request: Request, re
                 return Response(status_code=202)
         else:
             print("Wrong Password")
+            await _record_login_failure(login_session.user_id)
             raise HTTPException(401, detail="wrong credentials")
     elif data.auth_type == StartLoginResponseTypes.PASSKEY:
         res = verify_webauthn(data=data.data, fidocredentialss=user.fidocredentialss, login_session=login_session)
         if res is True:
+            await _clear_login_failures(login_session.user_id)
             if len(login_session.step_2) == 0 or (step_id == 2 and login_session.step1_success is True):
                 return await log_user_in(user, request, response)
             else:
@@ -192,14 +223,17 @@ async def step_1_endpoint(session_id: str, data: StepInput, request: Request, re
                 await redis.set(f"login_session:{session_id}", login_session.model_dump_json(), ex=600)
                 return Response(status_code=202)
         else:
+            await _record_login_failure(login_session.user_id)
             raise HTTPException(401, detail="webauthn failed")
     elif data.auth_type == StartLoginResponseTypes.BACKUP:
         if user.backup_code == data.data:
             user.backup_code = os.urandom(32).hex()
             await user.update()
+            await _clear_login_failures(login_session.user_id)
             return await log_user_in(user, request, response)
         else:
             print("Wrong Backup-Code")
+            await _record_login_failure(login_session.user_id)
             raise HTTPException(status_code=401)
     elif data.auth_type == StartLoginResponseTypes.TOTP:
         if step_id == 1 and user.require_password:
@@ -207,6 +241,8 @@ async def step_1_endpoint(session_id: str, data: StepInput, request: Request, re
             raise HTTPException(401)
         totp = pyotp.TOTP(user.totp_secret)
         if totp.verify(data.data):
+            await _clear_login_failures(login_session.user_id)
             return await log_user_in(user, request, response)
         else:
+            await _record_login_failure(login_session.user_id)
             raise HTTPException(401, detail="totp wrong")

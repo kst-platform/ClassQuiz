@@ -44,6 +44,12 @@ class User(ormar.Model):
     username: str = ormar.String(unique=True, max_length=100)
     password: Optional[str] = ormar.String(max_length=100, nullable=True)
     verified: bool = ormar.Boolean(default=False)
+    # Одобрение админом (КСТ.Квиз) — отдельно от verified (подтверждение
+    # email), которое в этом форке выключено (SKIP_EMAIL_VERIFICATION).
+    # Пока False, вход в систему запрещён (см. log_user_in в
+    # classquiz/oauth/authenticate_user.py) — учётку создали, но админ ещё
+    # не подтвердил, что это реальный преподаватель.
+    approved: bool = ormar.Boolean(default=False)
     verify_key: str = ormar.String(unique=True, max_length=100, nullable=True)
     created_at: datetime = ormar.DateTime(default=datetime.now())
     auth_type: UserAuthTypes = ormar.Enum(enum_class=UserAuthTypes, default=UserAuthTypes.LOCAL)

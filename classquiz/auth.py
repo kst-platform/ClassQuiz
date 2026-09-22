@@ -146,12 +146,18 @@ async def get_current_moderator(token: str = Depends(oauth2_scheme)):
 
 
 async def get_admin_user(token: str = Depends(oauth2_scheme)) -> User:
+    """Требует явного присутствия username в settings.admins.
+
+    Раньше эта проверка находила "первую по дате создания строку в users" и
+    считала её единственным админом навсегда — права зависели от порядка
+    вставки, а не от конфигурации, и их было невозможно проверить или сменить
+    без прямого доступа к базе. Список settings.admins задаётся через .env
+    (переменная ADMINS) и виден в конфигурации деплоя, как и settings.mods.
+    """
     user = await get_current_user(token)
-    admin_user = await User.objects.order_by(User.created_at.asc()).get()
-    if admin_user.id == user.id:
-        return user
-    else:
+    if user.username not in settings.admins:
         raise credentials_exception
+    return user
 
 
 async def get_current_user_optional(token: str = Depends(oauth2_scheme)) -> User | None:

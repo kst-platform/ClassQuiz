@@ -17,6 +17,10 @@ settings = settings()
 async def log_user_in(user: User | None, request: Request, response: Response):
     if user is None:
         raise HTTPException(status_code=401, detail="User not matched!")
+    if not user.approved:
+        # Единая точка для всех способов входа (пароль, passkey, TOTP,
+        # backup-код, OAuth) — учётка создана, но её ещё не одобрил админ.
+        raise HTTPException(status_code=403, detail="Учётная запись ожидает подтверждения администратором")
     remote_ip = None
     forwarded_for_header = request.headers.get("X-Forwarded-For")
     if forwarded_for_header is None:
@@ -63,6 +67,8 @@ async def rememberme_check(rememberme_token: str, response: Response):
     )
     if (user_session is None) or (user_session.user is None):
         raise HTTPException(status_code=401, detail="No user session")
+    if not user_session.user.approved:
+        raise HTTPException(status_code=403, detail="Учётная запись ожидает подтверждения администратором")
     access_token_expires = timedelta(minutes=settings.access_token_expire_minutes * 60)
     access_token = create_access_token(data={"sub": user_session.user.email}, expires_delta=access_token_expires)
     response.set_cookie(
