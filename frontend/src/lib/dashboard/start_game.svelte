@@ -131,7 +131,7 @@ SPDX-License-Identifier: MPL-2.0
 					class="w-14 h-7 bg-gray-200 rounded-full
 					peer-focus:outline-hidden peer-focus:ring-4 peer-focus:ring-blue-300
 					dark:peer-focus:ring-blue-800 dark:bg-gray-700
-					peer-checked:bg-blue-600
+					peer-checked:bg-[#2F678C]
 					relative
 					after:content-['']
 					after:absolute after:top-0.5 after:start-[4px]
@@ -142,7 +142,7 @@ SPDX-License-Identifier: MPL-2.0
 					rtl:peer-checked:after:-translate-x-full"
 				></span>
 				<span class="ms-3 text-sm font-medium text-gray-900"
-					>Captcha {captcha_selected ? 'enabled' : 'disabled'}</span
+					>Проверка капчей {captcha_selected ? 'включена' : 'выключена'}</span
 				>
 			</label>
 		</div>
@@ -186,7 +186,7 @@ SPDX-License-Identifier: MPL-2.0
 			<input
 				bind:value={custom_field}
 				class="rounded-lg p-2 outline-hidden placeholder:italic"
-				placeholder="Phone Number or Email"
+				placeholder="Например, номер телефона или email"
 			/>
 		</div>
 		{#if groups.length > 0}
@@ -212,7 +212,7 @@ SPDX-License-Identifier: MPL-2.0
 					class="w-14 h-7 bg-gray-200 rounded-full
 					peer-focus:outline-hidden peer-focus:ring-4 peer-focus:ring-blue-300
 					dark:peer-focus:ring-blue-800 dark:bg-gray-700
-					peer-checked:bg-blue-600
+					peer-checked:bg-[#2F678C]
 					relative
 					after:content-['']
 					after:absolute after:top-0.5 after:start-[4px]
@@ -228,11 +228,11 @@ SPDX-License-Identifier: MPL-2.0
 						target="_blank"
 						use:tippy={{
 							content:
-								'ClassQuizControllers are small physical devices to play ClassQuiz. Click to learn more.'
+								'Физические контроллеры — отдельные устройства для игры. Нажмите, чтобы узнать больше.'
 						}}
-						class="decoration-dashed underline cursor-help">ClassQuizControllers</a
+						class="decoration-dashed underline cursor-help">Физические контроллеры</a
 					>
-					are {cqcs_enabled ? 'enabled' : 'disabled'}</span
+					{cqcs_enabled ? 'включены' : 'выключены'}</span
 				>
 			</label>
 		</div>
@@ -251,7 +251,7 @@ SPDX-License-Identifier: MPL-2.0
 					class="w-14 h-7 bg-gray-200 rounded-full
 					peer-focus:outline-hidden peer-focus:ring-4 peer-focus:ring-blue-300
 					dark:peer-focus:ring-blue-800 dark:bg-gray-700
-					peer-checked:bg-blue-600
+					peer-checked:bg-[#2F678C]
 					relative
 					after:content-['']
 					after:absolute after:top-0.5 after:start-[4px]
@@ -261,7 +261,7 @@ SPDX-License-Identifier: MPL-2.0
 					peer-checked:after:translate-x-full
 					rtl:peer-checked:after:-translate-x-full"
 				></span>
-				<span class="ms-3 text-sm font-medium text-gray-900"> Randomize answers</span>
+				<span class="ms-3 text-sm font-medium text-gray-900"> Перемешивать варианты ответов</span>
 			</label>
 		</div>
 

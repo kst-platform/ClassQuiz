@@ -127,7 +127,7 @@ SPDX-License-Identifier: MPL-2.0
 				<a
 					href="/docs/quiz/question-types"
 					target="_blank"
-					class="text-sm font-bold underline text-blue-500 dark:text-blue-400"
+					class="text-sm font-bold underline text-[#2F678C] dark:text-[#7FA8C4]"
 					>{$t('editor.visit_docs')}</a
 				>
 			</p>

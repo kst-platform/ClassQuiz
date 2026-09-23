@@ -245,7 +245,7 @@ SPDX-License-Identifier: MPL-2.0
 									{$t('import_page.this_side_classquiz_excel')}
 								</p>
 								<a
-									class="text-sm underline font-bold text-blue-500 dark:text-blue-400"
+									class="text-sm underline font-bold text-[#2F678C] dark:text-[#7FA8C4]"
 									download
 									href="https://blog.web.garage.realux.mawoka.eu/classquiz/ClassQuizImportTemplate.xlsx"
 									>{$t('import_page.download_template_here')}</a
@@ -349,8 +349,8 @@ SPDX-License-Identifier: MPL-2.0
 				>
 
 				<a
-					href="/docs/import-from-kahoot"
-					class="mx-2 text-sm font-bold text-blue-500 dark:text-blue-400 hover:underline transition-all"
+					href="/docs"
+					class="mx-2 text-sm font-bold text-[#2F678C] dark:text-[#7FA8C4] hover:underline transition-all"
 					>{$t('import_page.visit_docs')}</a
 				>
 			</div>

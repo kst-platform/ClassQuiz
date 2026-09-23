@@ -106,7 +106,7 @@ SPDX-License-Identifier: MPL-2.0
 
 	<a
 		href="/account/register"
-		class="mx-2 text-sm font-bold text-blue-500 dark:text-blue-400 hover:underline"
+		class="mx-2 text-sm font-bold text-[#2F678C] dark:text-[#7FA8C4] hover:underline"
 		>{$t('words.register')}</a
 	>
 </div>

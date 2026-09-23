@@ -102,7 +102,7 @@ SPDX-License-Identifier: MPL-2.0
 			<div class="flex justify-evenly lg:w-2/6">
 				{#if teacherTab}
 					<button
-						class="border border-blue-600 p-2 border-2 rounded-sm hover:bg-gray-700 text-2xl"
+						class="border border-[#2F678C] p-2 border-2 rounded-sm hover:bg-gray-700 text-2xl"
 						onclick={() => {
 							teacherTab = true;
 						}}
@@ -121,7 +121,7 @@ SPDX-License-Identifier: MPL-2.0
 				{/if}
 				<button
 					class="border border-black p-2 border-2 rounded-sm hover:bg-gray-700"
-					class:border-blue-600={!teacherTab}
+					class:border-[#2F678C]={!teacherTab}
 					class:text-2xl={!teacherTab}
 					onclick={() => {
 						teacherTab = false;

@@ -57,7 +57,7 @@ SPDX-License-Identifier: MPL-2.0
 			>
 				<input
 					type="search"
-					class="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded-sm transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-hidden"
+					class="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded-sm transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-[#2F678C] focus:outline-hidden"
 					placeholder={$t('search_page.at_least_3_characters')}
 					aria-label="Search"
 					aria-describedby="button-addon2"
@@ -104,12 +104,9 @@ SPDX-License-Identifier: MPL-2.0
 		</div>
 		<div class="flex justify-center">
 			<p>
-				Not finding what you are looking for? Search on <a
-					class="underline"
-					href="https://create.kahoot.it/search?query={search_term}&tags=test&filter=filter%3D1"
-					target="_blank">Kahoot!</a
-				>
-				and <a href="/import" class="underline">import</a> it!
+				Ничего не нашлось среди общедоступных квизов колледжа.
+				<a href="/import" class="underline">Создайте свой</a> —
+				вручную или импортом из GIFT.
 			</p>
 		</div>
 	{/if}
