@@ -1,89 +1,99 @@
 <!--
-SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+	SPDX-FileCopyrightText: 2026 ГБПОУ КСТ
 
-SPDX-License-Identifier: MPL-2.0
+	SPDX-License-Identifier: MPL-2.0
+
+	Переписана с нуля вместо политики апстрима ClassQuiz — та описывала
+	практику ДРУГОГО оператора (сервер в Германии у Netcup, сторонний
+	Plausible/GlitchTip, которые в этом развёртывании не используются) и
+	не упоминала ФИО студентов, которые теперь хранятся через группы.
+
+	⚠️ Это черновик, описывающий, что платформа фактически делает по коду
+	(не выдуманная формулировка) — не юридически выверенный документ.
+	Перед вводом в реальную эксплуатацию должен пройти проверку тем, кто
+	отвечает в колледже за 152-ФЗ (тот же процесс, что для ОП.02).
 -->
-
-<script lang="ts">
-	import { onMount } from 'svelte';
-	import '$lib/hljs.css';
-
-	onMount(async () => {
-		const { default: hljs } = await import('highlight.js/lib/common');
-		hljs.highlightAll();
-	});
-</script>
-
 <svelte:head>
-	<title>КСТ.Квиз — Политика конфиденциальности</title>
+	<title>КСТ.Квиз — Политика обработки персональных данных</title>
 	<meta
 		name="description"
-		content="How to self-host ClassQuiz, the open-source quiz-application"
+		content="Какие данные собирает КСТ.Квиз, зачем и как их можно удалить"
 	/>
 </svelte:head>
 
-<article
-	class="prose prose-sm sm:prose lg:prose-lg xl:prose-xl mx-auto mt-10 prose-slate px-4 dark:prose-invert"
->
-	<h1>Privacy Policy</h1>
+<article class="prose prose-sm sm:prose lg:prose-lg mx-auto mt-24 mb-16 prose-slate px-4">
+	<h1>Политика обработки персональных данных</h1>
+	<p>
+		Оператор — ГБПОУ «Колледж современных технологий имени Героя Советского
+		Союза М.Ф. Панова» (КСТ). Платформа КСТ.Квиз используется для проведения
+		квизов и опросов на занятиях и доступна только преподавателям и
+		студентам колледжа.
+	</p>
 
-	<h2>What gets stored for how long and why</h2>
+	<h2>Какие данные собираются и зачем</h2>
 	<table>
 		<thead>
 			<tr>
-				<th>What?</th>
-				<th>Why?</th>
-				<th>How long?</th>
-				<th>Where?</th>
+				<th>Что</th>
+				<th>От кого</th>
+				<th>Зачем</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
-				<td> The IP-Address of the user</td>
-				<td>
-					<ul>
-						<li>To prevent abuse</li>
-						<li>To provide user-sessions</li>
-					</ul>
-				</td>
-				<td> For a very long time</td>
-				<td> On the developers server, by Netcup, in Germany.</td>
+				<td>Имя пользователя, email, пароль (хранится хешем, необратимо)</td>
+				<td>Преподаватель, при регистрации</td>
+				<td>Учётная запись; учётка становится рабочей только после одобрения администратором платформы</td>
 			</tr>
 			<tr>
-				<td> The data the user enters (quizzes, email, username)</td>
-				<td> Self-explaining</td>
-				<td> Maximum of 30 days after you've deleted your account</td>
-				<td> On the developers server, by Netcup, in Germany.</td>
+				<td>IP-адрес и тип браузера при входе</td>
+				<td>Преподаватель</td>
+				<td>Защита от подбора пароля, отличение своих сессий входа</td>
 			</tr>
 			<tr>
-				<td>The <b>hashed</b> password of the user</td>
-				<td>Self-explaining</td>
-				<td>Maximum of 30 days after you've deleted your account</td>
-				<td>On my server, by Netcup, in Germany.</td>
+				<td>Содержимое квизов, результаты игр</td>
+				<td>Преподаватель</td>
+				<td>Собственно работа платформы</td>
+			</tr>
+			<tr>
+				<td>ФИО студентов группы</td>
+				<td>Вносит преподаватель (у студентов нет своих учётных записей)</td>
+				<td
+					>Чтобы на входе в игру студент выбирал своё имя из списка, а не
+					вводил произвольный ник</td
+				>
 			</tr>
 		</tbody>
 	</table>
 
-	<h2>Cookies</h2>
+	<h2>Где хранятся данные</h2>
 	<p>
-		Cookies are used to store access-tokens, user-sessions and preferences. They expire after a
-		year.
+		На сервере, который использует колледж для этой платформы. Данные не
+		передаются сторонним компаниям и не размещаются на серверах за
+		пределами инфраструктуры, которую контролирует колледж.
 	</p>
 
-	<h2>Tracking</h2>
+	<h2>Cookies</h2>
 	<p>
-		This site uses a self-hosted GlitchTip (sentry) instance for error-logging. An opt-out is
-		not available at the moment. This website also uses
-		<a href="https://plausible.io/">Plausible</a> to log usage-data, but this is also running on
-		the same server as ClassQuiz itself.
+		Используются только для входа в систему (токен сессии) — не для
+		рекламы и не для отслеживания поведения на сторонних сайтах.
 	</p>
-	<h3>Third-Parties</h3>
+
+	<h2>Отслеживание и аналитика</h2>
 	<p>
-		The quiz-admin can enable the captcha, which then loads Google's ReCaptcha which then sends
-		something to Google. Refer to Google's <a
-			href="https://policies.google.com/privacy?hl=en-GB"
-			target="_blank"
-			rel="noreferrer">Privacy policy</a
+		По умолчанию выключены. Если преподаватель отдельно включит проверку
+		капчей при запуске игры, в браузер игроков загрузится сервис Google
+		ReCaptcha — в этом случае действует
+		<a href="https://policies.google.com/privacy?hl=ru" target="_blank" rel="noreferrer"
+			>политика конфиденциальности Google</a
 		>.
+	</p>
+
+	<h2>Права пользователя</h2>
+	<p>
+		Вы можете запросить доступ к своим данным, их исправление или удаление,
+		обратившись к администратору платформы (странице <a href="/account/admin"
+			>«Управление учётками»</a
+		> пользуется администратор, у преподавателя — обратная связь напрямую).
 	</p>
 </article>
