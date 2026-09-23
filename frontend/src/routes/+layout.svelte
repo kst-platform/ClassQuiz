@@ -20,17 +20,17 @@ SPDX-License-Identifier: MPL-2.0
 
 	let { children }: Props = $props();
 
+	// Тёмной темы больше нет — убрана целиком (была "нестабильна": часть
+	// из 145 компонентов рёбрендилась под неё, часть так и осталась на
+	// исходной палитре ClassQuiz, из-за чего при переключении вперемешку
+	// показывались то новые, то старые цвета). Фирменный стиль колледжа и
+	// так предполагает только светлые экраны (~/.claude/skills/lessons-spo/
+	// references/style.md). html.dark больше нигде не проставляется —
+	// все dark:-варианты Tailwind по всему приложению теперь просто
+	// неактивны, ничего чинить file-by-file не нужно.
 	if (browser) {
 		pathname.set(window.location.pathname);
-		if (
-			localStorage.theme === 'dark' ||
-			(!('theme' in localStorage) &&
-				window.matchMedia('(prefers-color-scheme: dark)').matches)
-		) {
-			document.documentElement.classList.add('dark');
-		} else {
-			document.documentElement.classList.remove('dark');
-		}
+		document.documentElement.classList.remove('dark');
 	}
 	// Язык платформы всегда русский, без переключателя и без определения
 	// по браузеру (по прямому указанию пользователя).
@@ -68,19 +68,9 @@ SPDX-License-Identifier: MPL-2.0
 <CommandPalette />
 
 <style lang="scss">
-	:global(html:not(.dark)) {
+	:global(html) {
 		background-color: #f5f6f6;
 		color: #26333c;
-	}
-
-	:global(html.dark) {
-		background-color: #26333c;
-		color: #f5f6f6;
-
-		:global(#pips-slider) {
-			--pip: white;
-			--pip-active: white;
-		}
 	}
 
 	@keyframes background_animation {
